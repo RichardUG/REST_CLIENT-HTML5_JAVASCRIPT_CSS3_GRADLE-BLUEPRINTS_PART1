@@ -82,8 +82,54 @@
     ```
     src/main/resources/static
     ```
+    
+    Acá podemos observar que se ha creado el directrorio
+    
+    ![](/img/static.PNG)
 
 4. Cree, en el directorio anterior, la página index.html, sólo con lo básico: título, campo para la captura del autor, botón de 'Get blueprints', campo donde se mostrará el nombre del autor seleccionado, [la tabla HTML](https://www.w3schools.com/html/html_tables.asp) donde se mostrará el listado de planos (con sólo los encabezados), y un campo en donde se mostrará el total de puntos de los planos del autor. Recuerde asociarle identificadores a dichos componentes para facilitar su búsqueda mediante selectores.
+
+    Acontinuación observamos una creación basica de una pagina ```html``` con los conceptos que nos solicitan
+    
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Blue Prints</title>
+    </head>
+    <body>
+        <center>
+            <div class="a" >
+                <h1>Blue Prints</h1>
+                <br><br>
+                <a>Autor:</a>
+                <input type="text" id="autor">
+                <br><br>
+                <button type="Get blueprints" id="Get blueprints" onclick="">Get blueprints</button>
+            </div>
+            <br><br>
+            <div class="a">
+                <label>Autor consultado:</label>
+                <label id="autorLabel"></label>
+                <br><br>
+                <table id="tabla">
+                    <thead>
+                    <tr>
+                        <th scope="col">Planos</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <br><br>
+                <label>Puntos totales de usuario:</label>
+                <label id="puntosLabel"></label>
+            </div>
+        </center>
+    </body>
+</html>
+    ```
 
 5. En el elemento \<head\> de la página, agregue las referencia a las librerías de jQuery, Bootstrap y a la hoja de estilos de Bootstrap. 
     ```html
