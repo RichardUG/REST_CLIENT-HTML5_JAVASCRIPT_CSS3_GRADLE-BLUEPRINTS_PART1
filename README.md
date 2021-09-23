@@ -25,6 +25,55 @@
         compile group: 'org.webjars', name: 'jquery', version: '3.1.0'
     }               
     ```
+    
+    Se agregaron estas dependencias en el archivo ```build.gradle``` y ademas la siguiente dependencia ya que al tratar de compilar pruebas mostraba error a falta de tener la dependecia de ```org.springframework.boot.test.context.SpringBootTest``` y de ```org.springframework.test.context.junit4.SpringRunner```, por lo cual se agrego la siguiente dependencia:
+    
+    ```
+    compile('org.springframework.boot:spring-boot-starter-test')
+    ```
+    
+    El resultado del archivo ```build.gradle``` quedo de la siguiente forma:
+    
+    ```gradle
+    group 'edu.eci.arsw'
+
+    buildscript {
+        ext {
+            springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+        }
+        repositories {
+            mavenCentral()
+            maven { url "https://repo.spring.io/snapshot" }
+            maven { url "https://repo.spring.io/milestone" }
+        }
+        dependencies {
+            classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        }
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-web')
+        compile('org.springframework.boot:spring-boot-starter-test')
+        compile (group: 'org.webjars', name: 'webjars-locator', version: '0.42')
+        compile (group: 'org.webjars', name: 'bootstrap', version: '5.1.0')
+        compile (group: 'org.webjars', name: 'jquery', version: '3.6.0')
+        testCompile (group: 'junit', name: 'junit', version: '4.13.2')
+    }
+    ```
 
 ## Front-End - Vistas
 
