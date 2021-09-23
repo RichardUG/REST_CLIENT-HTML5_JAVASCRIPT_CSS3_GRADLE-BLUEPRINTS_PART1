@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Blueprints</title>
     <meta charset="UTF-8">
-    <title>Blue Prints</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
 </head>
 <body>
     <center>
@@ -12,14 +16,14 @@
             <a>Autor:</a>
             <input type="text" id="autor">
             <br><br>
-            <button type="Get blueprints" id="Get blueprints" onclick="">Get blueprints</button>
+            <button class="btn btn-primary" id="Get blueprints" onclick="">Get blueprints</button>
         </div>
         <br><br>
         <div class="a">
             <label>Autor consultado:</label>
             <label id="autorLabel"></label>
             <br><br>
-            <table id="tabla">
+            <table class="table table-dark" id="tabla"  style="width:40%">
                 <thead>
                 <tr>
                     <th scope="col">Planos</th>
@@ -33,5 +37,6 @@
             <label id="puntosLabel"></label>
         </div>
     </center>
+
 </body>
 </html>
