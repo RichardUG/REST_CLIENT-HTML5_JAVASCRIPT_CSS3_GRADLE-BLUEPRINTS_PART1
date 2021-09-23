@@ -68,9 +68,9 @@
     dependencies {
         compile('org.springframework.boot:spring-boot-starter-web')
         compile('org.springframework.boot:spring-boot-starter-test')
-        compile (group: 'org.webjars', name: 'webjars-locator', version: '0.42')
-        compile (group: 'org.webjars', name: 'bootstrap', version: '5.1.0')
-        compile (group: 'org.webjars', name: 'jquery', version: '3.6.0')
+        compile group: 'org.webjars', name: 'webjars-locator', version: '0.14'
+        compile group: 'org.webjars', name: 'bootstrap', version: '4.1.2'
+        compile group: 'org.webjars', name: 'jquery', version: '3.1.0'
         testCompile (group: 'junit', name: 'junit', version: '4.13.2')
     }
     ```
@@ -94,44 +94,45 @@
     ```html
     <!DOCTYPE html>
     <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Blue Prints</title>
-    </head>
-    <body>
-        <center>
-            <div class="a" >
-                <h1>Blue Prints</h1>
+        <head>
+            <meta charset="UTF-8">
+            <title>Blue Prints</title>
+        </head>
+        <body>
+            <center>
+                <div class="a" >
+                    <h1>Blue Prints</h1>
+                    <br><br>
+                    <a>Autor:</a>
+                    <input type="text" id="autor">
+                    <br><br>
+                    <button type="Get blueprints" id="Get blueprints" onclick="">Get blueprints</button>
+                </div>
                 <br><br>
-                <a>Autor:</a>
-                <input type="text" id="autor">
-                <br><br>
-                <button type="Get blueprints" id="Get blueprints" onclick="">Get blueprints</button>
-            </div>
-            <br><br>
-            <div class="a">
-                <label>Autor consultado:</label>
-                <label id="autorLabel"></label>
-                <br><br>
-                <table id="tabla">
-                    <thead>
-                    <tr>
-                        <th scope="col">Planos</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <br><br>
-                <label>Puntos totales de usuario:</label>
-                <label id="puntosLabel"></label>
-            </div>
-        </center>
-    </body>
-</html>
+                <div class="a">
+                    <label>Autor consultado:</label>
+                    <label id="autorLabel"></label>
+                    <br><br>
+                    <table id="tabla">
+                        <thead>
+                        <tr>
+                            <th scope="col">Planos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <label>Puntos totales de usuario:</label>
+                    <label id="puntosLabel"></label>
+                </div>
+            </center>
+        </body>
+    </html>
     ```
 
 5. En el elemento \<head\> de la página, agregue las referencia a las librerías de jQuery, Bootstrap y a la hoja de estilos de Bootstrap. 
+
     ```html
     <head>
         <title>Blueprints</title>
@@ -142,6 +143,52 @@
         <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
         <link rel="stylesheet"
           href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
+    ```
+    
+    Ahora aca podemos observar como queda tras agregar los scripts
+    
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Blueprints</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+            <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+            <link rel="stylesheet" href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
+        </head>
+        <body>
+            <center>
+                <div class="a" >
+                    <h1>Blue Prints</h1>
+                    <br><br>
+                    <a>Autor:</a>
+                    <input type="text" id="autor">
+                    <br><br>
+                    <button class="btn btn-primary" id="Get blueprints" onclick="">Get blueprints</button>
+                </div>
+               <br><br>
+               <div class="a">
+                   <label>Autor consultado:</label>
+                   <label id="autorLabel"></label>
+                   <br><br>
+                   <table class="table table-dark" id="tabla">
+                       <thead>
+                       <tr>
+                           <th scope="col">Planos</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       </tbody>
+                   </table>
+                   <br><br>
+                   <label>Puntos totales de usuario:</label>
+                   <label id="puntosLabel"></label>
+               </div>
+           </center>
+        </body>
+    </html>
     ```
 
 
