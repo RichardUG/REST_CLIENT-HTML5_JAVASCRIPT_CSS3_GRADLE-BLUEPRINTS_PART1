@@ -214,7 +214,7 @@
                 	</tr>
             	</tbody>
         	</table>
-    	</body>
+    	    </body>
 	</html>
     ```
 	
@@ -243,12 +243,179 @@
 
 1. Ahora, va a crear un Módulo JavaScript que, a manera de controlador, mantenga los estados y ofrezca las operaciones requeridas por la vista. Para esto tenga en cuenta el [patrón Módulo de JavaScript](https://toddmotto.com/mastering-the-module-pattern/), y cree un módulo en la ruta static/js/app.js .
 
+    Observamos creado el modulo js y el archivo app.js
+    
+    ![](/img/app.PNG)
+
 2. Copie el módulo provisto (apimock.js) en la misma ruta del módulo antes creado. En éste agréguele más planos (con más puntos) a los autores 'quemados' en el código.
 
+    Ahora también observamos creado el archivo apimock.js
+    
+    ![](/img/apimock.js)
+    
+    Que tiene el siguiente contenido 
+    
+    ```js
+        var apimock = (function () {
+
+        var mockdata = [];
+
+        mockdata["JhonConnor"] = [
+            {
+                author: "JhonConnor",
+                name: "house",
+                points: [
+                    {
+                        x: 10,
+                        y: 20
+                    },
+                    {
+                        x: 15,
+                        y: 25
+                    },
+                    {
+                        x: 45,
+                        y: 25
+                    }
+                ]
+            },
+            {
+                author: "JhonConnor",
+                name: "bike",
+                points: [
+                    {
+                        x: 30,
+                        y: 35
+                    },
+                    {
+                        x: 40,
+                        y: 45
+                    }
+                ]
+            },
+            {
+                 author: "JhonConnor",
+                 name: "otro",
+                 points: [
+                     {
+                         x: 50,
+                         y: 35
+                     },
+                     {
+                        x: 45,
+                        y: 45
+                     }
+                 ]
+             }
+        ]
+
+        mockdata['LexLuthor'] = [
+            {
+                author: 'LexLuthor',
+                name: 'kryptonite',
+                points: [
+                    {
+                        x: 60,
+                        y: 65
+                    },
+                    {
+                        x: 70,
+                        y: 75
+                    }
+                ]
+            }
+        ]
+
+        return {
+            getBlueprintsByAuthor: function(author, callback) {
+                callback(null, mockdata[author]);
+            },
+            getBlueprintsByNameAndAuthor: function(name, author, callback) {
+                blueprint = mockdata[author].find(function(blueprint) {
+                    return blueprint.name == name
+                });
+                callback(null, blueprint)
+            }
+        }
+    })();
+    ```
+
 3. Agregue la importación de los dos nuevos módulos a la página HTML (después de las importaciones de las librerías de jQuery y Bootstrap):
+
     ```html
     <script src="js/apimock.js"></script>
     <script src="js/app.js"></script>
+    ```
+    
+    Tras agregar estos scripts el codigo queda así
+    
+    ```html
+    <!DOCTYPE html>
+	<html lang="en">
+	    <head>
+        	<title>Blueprints</title>
+    	    <meta charset="UTF-8">
+	        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        	<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+    	        <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+	        <link rel="stylesheet" href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
+		<script src="js/apimock.js"></script>
+    	        <script src="js/app.js"></script>
+    	</head>
+    	<body background="https://github.com/RichardUG/REST_CLIENT-HTML5_JAVASCRIPT_CSS3_GRADLE-BLUEPRINTS_PART1/blob/master/img/random_grey_variations.png?raw=true">
+	    <table style="width:100%">
+        	<thead></thead>
+    	            <tbody>
+	                <tr>
+                	    <td>
+            	            <center>
+        	                    <FONT COLOR="black"><h1>Blueprints</h1></FONT>
+    	                        <FONT COLOR="black"><h5>Autor:
+	                            <input type="text" id="autor"></h5></FONT>
+                        	</center>
+                    	<td>
+                        	<center>
+                            	<br><br>
+                            	<button class="btn btn-primary" id="Get blueprints" onclick="">Get blueprints</button>
+                        	</center>
+                    	</td>
+                	</tr>
+                	<tr>
+                    	<td>
+                        	<center>
+                            	<br><br>
+                            	<h5><FONT COLOR="black"><label id="autorLabel"></label></FONT>
+	                               	<FONT COLOR="black"><label>'s blueprints:'</label></FONT></h5>
+                            	<br><br>
+                            	<table class="table table-dark" id="tabla"  style="width:90%">
+                                	<thead>
+                                		<tr>
+                                    		<th>Blueprint name</th>
+                                    		<th>Number of points</th>
+                                    		<th>Open</th>
+                                		</tr>
+                                	</thead>
+                                	<tbody>
+                                	</tbody>    	
+        	            		</table>
+            	                <br><br>
+        	                    <h5><FONT COLOR="black"><label>Total user points:</label></FONT>
+    	                            <FONT COLOR="black"><label id="puntosLabel"></label></FONT></h5>
+	                        </center>
+                    	</td>
+                	    <td>
+            	            <br>
+        	                <center>
+    	                        <h5><FONT COLOR="black"><label>Current blueprint:</label></FONT>
+	                                <FONT COLOR="black"><label id="planoLabel"></label></FONT></h5>
+                            	<canvas id="myCanvas" width="480" height="480" style="border:1px solid #000000;"></canvas>
+                        	</center>
+                    	</td>
+                	</tr>
+            	</tbody>
+            </table>
+    	</body>
+    </html>
     ```
 
 3. Haga que el módulo antes creado mantenga de forma privada:
@@ -256,6 +423,22 @@
     * El listado de nombre y tamaño de los planos del autor seleccionado. Es decir, una lista objetos, donde cada objeto tendrá dos propiedades: nombre de plano, y número de puntos del plano.
 
     Junto con una operación pública que permita cambiar el nombre del autor actualmente seleccionado.
+    
+    ```js
+    return {
+	getBlueprintsByAuthor:function(name, callback) {
+	    callback(
+		mockdata[name]
+	    )
+	},
+	getBlueprintsByNameAndAuthor:function(autor,obra,callback){
+	    callback(
+		mockdata[autor].filter(prueb => {return prueb.name === obra;})[0]
+	    );
+	}
+    }
+
+    ```
 
 
 4. Agregue al módulo 'app.js' una operación pública que permita actualizar el listado de los planos, a partir del nombre de su autor (dado como parámetro). Para hacer esto, dicha operación debe invocar la operación 'getBlueprintsByAuthor' del módulo 'apimock' provisto, enviándole como _callback_ una función que:
@@ -265,10 +448,59 @@
     * Sobre el listado resultante, haga otro 'map', que tome cada uno de estos elementos, y a través de jQuery agregue un elemento \<tr\> (con los respectvos \<td\>) a la tabla creada en el punto 4. Tenga en cuenta los [selectores de jQuery](https://www.w3schools.com/JQuery/jquery_ref_selectors.asp) y [los tutoriales disponibles en línea](https://www.tutorialrepublic.com/codelab.php?topic=faq&file=jquery-append-and-remove-table-row-dynamically). Por ahora no agregue botones a las filas generadas.
 
     * Sobre cualquiera de los dos listados (el original, o el transformado mediante 'map'), aplique un 'reduce' que calcule el número de puntos. Con este valor, use jQuery para actualizar el campo correspondiente dentro del DOM.
+    
+    ```js
+        app= (function (){
+        var _funcModify = function (variable) {
+            if(variable != null){
+                var arreglo = variable.map(function(blueprint){
+                    return {key:blueprint.name, value:blueprint.points.length}
+                })
+                $("#tabla tbody").empty();
+
+                arreglo.map(function(blueprint){
+                    var temporal = '<tr><td id="nombreActor">'+blueprint.key+'</td><td id="puntos">'+blueprint.value+'</td><td type="button" onclick="app.drawPlan(\''+blueprint.key+'\')">Open</td></tr>';
+                    $("#tabla tbody").append(temporal);
+                })
+
+                var valorTotal = arreglo.reduce(function(valorAnterior, valorActual, indice, vector){
+                                            return valorAnterior + valorActual.value;
+                                         },0);
+                document.getElementById("autorLabel").innerHTML = author;
+                document.getElementById("puntosLabel").innerHTML = valorTotal;
+            }
+        }; 
+
+        return {
+                plansAuthor: function () {
+                    author = document.getElementById("autor").value;
+                    apimock.getBlueprintsByAuthor(author,_funcModify);
+                },
+            };
+        })();    
+    ```
+    
 
 5. Asocie la operación antes creada (la de app.js) al evento 'on-click' del botón de consulta de la página.
 
+    El boton queda de la siguiente manera
+    
+    ```html
+    <button class="btn btn-primary" id="Get blueprints" onclick="app.plansAuthor()">Get blueprints</button>
+    ```
+
 6. Verifique el funcionamiento de la aplicación. Inicie el servidor, abra la aplicación HTML5/JavaScript, y rectifique que al ingresar un usuario existente, se cargue el listado del mismo.
+
+    Al desplegarlo y al realizar queda de la siguiente manera:
+    
+    * Consulta a LexLuthor
+    
+    ![](/img/lexluthor.PNG)
+    
+    * Consulta a JhonConnor
+    
+    ![](/img/jhonconnor.PNG)
+    
 
 ## Para la próxima semana
 
