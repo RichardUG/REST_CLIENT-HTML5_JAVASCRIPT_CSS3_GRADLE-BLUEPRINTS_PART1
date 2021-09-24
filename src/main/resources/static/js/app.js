@@ -20,11 +20,54 @@ app= (function (){
         }
     };
 
+    var _funcDraw = function (vari) {
+        if (vari) {
+            var lastx = null;
+            var lasty = null;
+            var actx = null;
+            var acty = null;
+            var myCanvas = document.getElementById("myCanvas");
+            var ctx = myCanvas.getContext("2d");
+            ctx.fillStyle = "white";
+            console.log(myCanvas.width)
+            ctx.fillRect(0, 0, myCanvas.width , myCanvas.height);
+            ctx.beginPath();
+
+            vari.points.map(function (prue){
+                if (lastx == null) {
+                    lastx = prue.x;
+                    lasty = prue.y;
+                } else {
+                    actx = prue.x;
+                    acty = prue.y;
+                    ctx.moveTo(lastx, lasty);
+                    ctx.lineTo(actx, acty);
+                    ctx.stroke();
+                    lastx = actx;
+                    lasty = acty;
+                }
+            });
+        }
+    }
+
     return {
             plansAuthor: function () {
                 author = document.getElementById("autor").value;
                 apimock.getBlueprintsByAuthor(author,_funcModify);
 
             },
+            drawPlan: function(name) {
+                author = document.getElementById("autor").value;
+                obra = name;
+                apimock.getBlueprintsByNameAndAuthor(author,obra,_funcDraw);
+            }
         };
 })();
+
+window.onload = function(){
+  var myCanvas = document.getElementById("myCanvas");
+  var ctx = myCanvas.getContext("2d");
+  ctx.fillStyle = "white";
+  console.log(myCanvas.width)
+  ctx.fillRect(0, 0, myCanvas.width , myCanvas.height);
+};
