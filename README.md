@@ -506,13 +506,182 @@
 
 8. A la página, agregue un [elemento de tipo Canvas](https://www.w3schools.com/html/html5_canvas.asp), con su respectivo identificador. Haga que sus dimensiones no sean demasiado grandes para dejar espacio para los otros componentes, pero lo suficiente para poder 'dibujar' los planos.
 
+```html
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Blueprints</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+        <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
+        <script src="js/apimock.js"></script>
+        <script src="js/app.js"></script>
+    </head>
+    <body background="https://github.com/RichardUG/REST_CLIENT-HTML5_JAVASCRIPT_CSS3_GRADLE-BLUEPRINTS_PART1/blob/master/img/random_grey_variations.png?raw=true">
+
+        <table style="width:100%">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <center>
+                            <FONT COLOR="black"><h1>Blueprints</h1></FONT>
+                            <FONT COLOR="black"><h5>Autor:
+                            <input type="text" id="autor"></h5></FONT>
+                        </center>
+                    <td>
+                        <center>
+                            <br><br>
+                            <button class="btn btn-primary" id="Get blueprints" onclick="app.plansAuthor()">Get blueprints</button>
+                        </center>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <center>
+                            <br><br>
+                            <h5><FONT COLOR="black"><label id="autorLabel"></label></FONT>
+                                <FONT COLOR="black"><label>'s blueprints:'</label></FONT></h5>
+                            <br><br>
+                            <table class="table table-dark" id="tabla"  style="width:90%">
+                                <thead>
+                                <tr>
+                                    <th>Blueprint name</th>
+                                    <th>Number of points</th>
+                                    <th>Open</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+
+                            </table>
+                            <br><br>
+                            <h5><FONT COLOR="black"><label>Total user points:</label></FONT>
+                                <FONT COLOR="black"><label id="puntosLabel"></label></FONT></h5>
+                        </center>
+                    </td>
+                    <td>
+                        <br>
+                        <center>
+                            <h5><FONT COLOR="black"><label>Current blueprint:</label></FONT>
+                                <FONT COLOR="black"><label id="planoLabel"></label></FONT></h5>
+                            <canvas id="myCanvas" width="480" height="480" style="border:1px solid #000000" background= "solid #FFFFFF"></canvas>
+                        </center>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
+```
+
+   Visualmente se ve del siguiente modo
+   
+   ![](/img/canvas.PNG)
+
 9. Al módulo app.js agregue una operación que, dado el nombre de un autor, y el nombre de uno de sus planos dados como parámetros, haciendo uso del método getBlueprintsByNameAndAuthor de apimock.js y de una función _callback_:
     * Consulte los puntos del plano correspondiente, y con los mismos dibuje consectivamente segmentos de recta, haciendo uso [de los elementos HTML5 (Canvas, 2DContext, etc) disponibles](https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_canvas_tut_path)* Actualice con jQuery el campo <div> donde se muestra el nombre del plano que se está dibujando (si dicho campo no existe, agruéguelo al DOM).
 
+```js
+app= (function (){
+    var _funcModify = function (variable) {
+        if(variable != null){
+            var arreglo = variable.map(function(blueprint){
+                return {key:blueprint.name, value:blueprint.points.length}
+            })
+            $("#tabla tbody").empty();
+
+            arreglo.map(function(blueprint){
+                var temporal = '<tr><td id="nombreActor">'+blueprint.key+'</td><td id="puntos">'+blueprint.value+'</td><td type="button" onclick="app.drawPlan(\''+blueprint.key+'\')">Open</td></tr>';
+                $("#tabla tbody").append(temporal);
+            })
+
+            var valorTotal = arreglo.reduce(function(valorAnterior, valorActual, indice, vector){
+                                        return valorAnterior + valorActual.value;
+                                     },0);
+
+            document.getElementById("autorLabel").innerHTML = author;
+            document.getElementById("puntosLabel").innerHTML = valorTotal;
+        }
+    };
+
+    var _funcDraw = function (vari) {
+        if (vari) {
+            var lastx = null;
+            var lasty = null;
+            var actx = null;
+            var acty = null;
+            var myCanvas = document.getElementById("myCanvas");
+            var ctx = myCanvas.getContext("2d");
+            ctx.fillStyle = "white";
+            console.log(myCanvas.width)
+            ctx.fillRect(0, 0, myCanvas.width , myCanvas.height);
+            ctx.beginPath();
+
+            vari.points.map(function (prue){
+                if (lastx == null) {
+                    lastx = prue.x;
+                    lasty = prue.y;
+                } else {
+                    actx = prue.x;
+                    acty = prue.y;
+                    ctx.moveTo(lastx, lasty);
+                    ctx.lineTo(actx, acty);
+                    ctx.stroke();
+                    lastx = actx;
+                    lasty = acty;
+                }
+            });
+        }
+    }
+
+    return {
+            plansAuthor: function () {
+                author = document.getElementById("autor").value;
+                apimock.getBlueprintsByAuthor(author,_funcModify);
+
+            },
+            drawPlan: function(name) {
+                author = document.getElementById("autor").value;
+                obra = name;
+                apimock.getBlueprintsByNameAndAuthor(author,obra,_funcDraw);
+            }
+        };
+})();
+
+window.onload = function(){
+  var myCanvas = document.getElementById("myCanvas");
+  var ctx = myCanvas.getContext("2d");
+  ctx.fillStyle = "white";
+  console.log(myCanvas.width)
+  ctx.fillRect(0, 0, myCanvas.width , myCanvas.height);
+};
+```
+
 10. Verifique que la aplicación ahora, además de mostrar el listado de los planos de un autor, permita seleccionar uno de éstos y graficarlo. Para esto, haga que en las filas generadas para el punto 5 incluyan en la última columna un botón con su evento de clic asociado a la operación hecha anteriormente (enviándo como parámetro los nombres correspondientes).
+	
+    Ya se habia diseñado por lo visualizado en el mockup
 
 11. Verifique que la aplicación ahora permita: consultar los planos de un auto y graficar aquel que se seleccione.
+	
+    * Prueba LexLuthor kryptonite
+  
+    ![](/img/canvalexkryptonite.PNG)
 
+    * Prueba JhonConnor house
+
+    ![](/img/canvaconnorhouse.PNG)
+
+    * Prueba JhonConnor bike
+
+    ![](/img/canvaconnorbike.PNG)
+	
+    * Prueba JhonConnor otro
+	
+    ![](/img/canvaconnorotro.PNG)
+	
 12. Una vez funcione la aplicación (sólo front-end), haga un módulo (llámelo 'apiclient') que tenga las mismas operaciones del 'apimock', pero que para las mismas use datos reales consultados del API REST. Para lo anterior revise [cómo hacer peticiones GET con jQuery](https://api.jquery.com/jquery.get/), y cómo se maneja el esquema de _callbacks_ en este contexto.
 
 13. Modifique el código de app.js de manera que sea posible cambiar entre el 'apimock' y el 'apiclient' con sólo una línea de código.
