@@ -130,6 +130,10 @@
         </body>
     </html>
     ```
+	
+	Aca observamos la plantilla de como queda la visualización básica del front
+	
+	![](/img/html_basic.PNG)
 
 5. En el elemento \<head\> de la página, agregue las referencia a las librerías de jQuery, Bootstrap y a la hoja de estilos de Bootstrap. 
 
@@ -145,51 +149,78 @@
           href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
     ```
     
-    Ahora aca podemos observar como queda tras agregar los scripts
+    Ahora aca podemos observar como queda tras agregar los scripts y hacer uso de las librerias que nos permiten estos scripts
     
     ```html
     <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <title>Blueprints</title>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
-            <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
-            <link rel="stylesheet" href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
-        </head>
-        <body>
-            <center>
-                <div class="a" >
-                    <h1>Blue Prints</h1>
-                    <br><br>
-                    <a>Autor:</a>
-                    <input type="text" id="autor">
-                    <br><br>
-                    <button class="btn btn-primary" id="Get blueprints" onclick="">Get blueprints</button>
-                </div>
-               <br><br>
-               <div class="a">
-                   <label>Autor consultado:</label>
-                   <label id="autorLabel"></label>
-                   <br><br>
-                   <table class="table table-dark" id="tabla">
-                       <thead>
-                       <tr>
-                           <th scope="col">Planos</th>
-                       </tr>
-                       </thead>
-                       <tbody>
-                       </tbody>
-                   </table>
-                   <br><br>
-                   <label>Puntos totales de usuario:</label>
-                   <label id="puntosLabel"></label>
-               </div>
-           </center>
-        </body>
-    </html>
+	<html lang="en">
+	    <head>
+        	<title>Blueprints</title>
+    	    <meta charset="UTF-8">
+	        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        	<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+    	    <script src="/webjars/bootstrap/4.1.2/js/bootstrap.min.js"></script>
+	        <link rel="stylesheet" href="/webjars/bootstrap/4.1.2/css/bootstrap.min.css" />
+    	</head>
+    	<body background="https://github.com/RichardUG/REST_CLIENT-HTML5_JAVASCRIPT_CSS3_GRADLE-BLUEPRINTS_PART1/blob/master/img/random_grey_variations.png?raw=true">
+	        <table style="width:100%">
+        	    <thead></thead>
+    	        <tbody>
+	                <tr>
+                	    <td>
+            	            <center>
+        	                    <FONT COLOR="black"><h1>Blueprints</h1></FONT>
+    	                        <FONT COLOR="black"><h5>Autor:
+	                            <input type="text" id="autor"></h5></FONT>
+                        	</center>
+                    	<td>
+                        	<center>
+                            	<br><br>
+                            	<button class="btn btn-primary" id="Get blueprints" onclick="">Get blueprints</button>
+                        	</center>
+                    	</td>
+                	</tr>
+                	<tr>
+                    	<td>
+                        	<center>
+                            	<br><br>
+                            	<h5><FONT COLOR="black"><label id="autorLabel"></label></FONT>
+	                               	<FONT COLOR="black"><label>'s blueprints:'</label></FONT></h5>
+                            	<br><br>
+                            	<table class="table table-dark" id="tabla"  style="width:90%">
+                                	<thead>
+                                		<tr>
+                                    		<th>Blueprint name</th>
+                                    		<th>Number of points</th>
+                                    		<th>Open</th>
+                                		</tr>
+                                	</thead>
+                                	<tbody>
+                                	</tbody>    	
+        	            		</table>
+            	                <br><br>
+        	                    <h5><FONT COLOR="black"><label>Total user points:</label></FONT>
+    	                            <FONT COLOR="black"><label id="puntosLabel"></label></FONT></h5>
+	                        </center>
+                    	</td>
+                	    <td>
+            	            <br>
+        	                <center>
+    	                        <h5><FONT COLOR="black"><label>Current blueprint:</label></FONT>
+	                                <FONT COLOR="black"><label id="planoLabel"></label></FONT></h5>
+                            	<canvas id="myCanvas" width="480" height="480" style="border:1px solid #000000;"></canvas>
+                        	</center>
+                    	</td>
+                	</tr>
+            	</tbody>
+        	</table>
+    	</body>
+	</html>
     ```
+	
+	Aca observamos la plantilla de como queda la visualización del front con más orden pero sin aplicarse las capas de bootstrap, ya que como trabaja por medio del despliegue en gradle no los carga aún
+	
+	![](/img/html_nodespliegue.PNG)
 
 
 5. Suba la aplicación (mvn spring-boot:run), y rectifique:
@@ -198,6 +229,15 @@
     http://localhost:8080/index.html
     ```
     2. Al abrir la consola de desarrollador del navegador, NO deben aparecer mensajes de error 404 (es decir, que las librerías de JavaScript se cargaron correctamente).
+
+
+	Tras ejecutar la aplicación y consultar ```http://localhost:8080/index.html``` este es el despliegue que nos muestra
+	
+	![](/img/html_despliegue.PNG)
+	
+	Y al consultar la consola de desarrollador en el navegador observamos que no hay errores
+	
+	![](/img/console.PNG)
 
 ## Front-End - Lógica
 
