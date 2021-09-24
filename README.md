@@ -459,7 +459,7 @@
                 $("#tabla tbody").empty();
 
                 arreglo.map(function(blueprint){
-                    var temporal = '<tr><td id="nombreActor">'+blueprint.key+'</td><td id="puntos">'+blueprint.value+'</td><td type="button" onclick="app.drawPlan(\''+blueprint.key+'\')">Open</td></tr>';
+                    var temporal = '<tr><td id="nombreActor">'+blueprint.key+'</td><td id="puntos">'+blueprint.value+'</td><td type="button" onclick="">Open</td></tr>';
                     $("#tabla tbody").append(temporal);
                 })
 
