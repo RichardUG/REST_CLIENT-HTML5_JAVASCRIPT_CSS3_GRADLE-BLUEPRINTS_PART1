@@ -1,4 +1,5 @@
 app= (function (){
+    var consulta=apimock;
     var _funcModify = function (variable) {
         if(variable != null){
             var arreglo = variable.map(function(blueprint){
@@ -51,17 +52,16 @@ app= (function (){
     }
 
     return {
-            plansAuthor: function () {
-                author = document.getElementById("autor").value;
-                apimock.getBlueprintsByAuthor(author,_funcModify);
-
-            },
-            drawPlan: function(name) {
-                author = document.getElementById("autor").value;
-                obra = name;
-                apimock.getBlueprintsByNameAndAuthor(author,obra,_funcDraw);
-            }
-        };
+        plansAuthor: function () {
+            author = document.getElementById("autor").value;
+            consulta.getBlueprintsByAuthor(author,_funcModify);
+        },
+        drawPlan: function(name) {
+            author = document.getElementById("autor").value;
+            obra = name;
+            consulta.getBlueprintsByNameAndAuthor(author,obra,_funcDraw);
+        }
+    };
 })();
 
 window.onload = function(){
