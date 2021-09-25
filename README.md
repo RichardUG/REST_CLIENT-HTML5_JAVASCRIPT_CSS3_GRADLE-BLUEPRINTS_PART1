@@ -684,6 +684,114 @@ window.onload = function(){
 	
 12. Una vez funcione la aplicación (sólo front-end), haga un módulo (llámelo 'apiclient') que tenga las mismas operaciones del 'apimock', pero que para las mismas use datos reales consultados del API REST. Para lo anterior revise [cómo hacer peticiones GET con jQuery](https://api.jquery.com/jquery.get/), y cómo se maneja el esquema de _callbacks_ en este contexto.
 
+    ```js
+    var apiclient=(function () {
+    var url='http://localhost:8080/blueprints';
+    function drawPlan(name,obra){
+        console.log($.get(url+"/"+name+"/"+obra));
+        $.get(url+"/"+name+"/"+obra).then(responseJSON=>{
+            console.log(responseJSON);
+            mockdata=responseJSON;
+        })
+        console.log(mockdata);
+    }
+    return{
+        getBlueprintsByAuthor:function(name, callback) {
+            $.get(url+"/"+name).then(responseJSON=>{
+                callback(
+                   responseJSON
+                )
+            })
+        },
+        getBlueprintsByNameAndAuthor:function(autor,obra,callback){
+            $.get(url+"/"+autor+"/"+obra).then(responseJSON=>{
+                callback(
+                    responseJSON
+                )
+            })
+        }
+    }
+    })();
+    ```
+
 13. Modifique el código de app.js de manera que sea posible cambiar entre el 'apimock' y el 'apiclient' con sólo una línea de código.
+	
+    Se agrego una variable en la linea 2 que al cambiar su valor entre apimock y apiclient cambia a donde se dirigen las funciones
+	
+    ```js
+    app= (function (){
+        var consulta=apimock;
+        var _funcModify = function (variable) {
+        if(variable != null){
+            var arreglo = variable.map(function(blueprint){
+                return {key:blueprint.name, value:blueprint.points.length}
+            })
+            $("#tabla tbody").empty();
+
+            arreglo.map(function(blueprint){
+                var temporal = '<tr><td id="nombreActor">'+blueprint.key+'</td><td id="puntos">'+blueprint.value+'</td><td type="button" onclick="app.drawPlan(\''+blueprint.key+'\')">Open</td></tr>';
+                $("#tabla tbody").append(temporal);
+            })
+
+            var valorTotal = arreglo.reduce(function(valorAnterior, valorActual, indice, vector){
+                                        return valorAnterior + valorActual.value;
+                                     },0);
+
+            document.getElementById("autorLabel").innerHTML = author;
+            document.getElementById("puntosLabel").innerHTML = valorTotal;
+        }
+    };
+
+    var _funcDraw = function (vari) {
+        if (vari) {
+            var lastx = null;
+            var lasty = null;
+            var actx = null;
+            var acty = null;
+            var myCanvas = document.getElementById("myCanvas");
+            var ctx = myCanvas.getContext("2d");
+            ctx.fillStyle = "white";
+            console.log(myCanvas.width)
+            ctx.fillRect(0, 0, myCanvas.width , myCanvas.height);
+            ctx.beginPath();
+
+            vari.points.map(function (prue){
+                if (lastx == null) {
+                    lastx = prue.x;
+                    lasty = prue.y;
+                } else {
+                    actx = prue.x;
+                    acty = prue.y;
+                    ctx.moveTo(lastx, lasty);
+                    ctx.lineTo(actx, acty);
+                    ctx.stroke();
+                    lastx = actx;
+                    lasty = acty;
+                }
+            });
+        }
+    }
+
+    return {
+        plansAuthor: function () {
+            author = document.getElementById("autor").value;
+            consulta.getBlueprintsByAuthor(author,_funcModify);
+        },
+        drawPlan: function(name) {
+            author = document.getElementById("autor").value;
+            obra = name;
+            consulta.getBlueprintsByNameAndAuthor(author,obra,_funcDraw);
+        }
+    };
+    })();
+
+    window.onload = function(){
+        var myCanvas = document.getElementById("myCanvas");
+        var ctx = myCanvas.getContext("2d");
+        ctx.fillStyle = "white";
+        console.log(myCanvas.width)
+        ctx.fillRect(0, 0, myCanvas.width , myCanvas.height);
+    };
+    ```
 
 14. Revise la [documentación y ejemplos de los estilos de Bootstrap](https://v4-alpha.getbootstrap.com/examples/) (ya incluidos en el ejercicio), agregue los elementos necesarios a la página para que sea más vistosa, y más cercana al mock dado al inicio del enunciado.
