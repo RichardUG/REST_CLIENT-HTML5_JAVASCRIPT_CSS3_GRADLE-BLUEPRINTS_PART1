@@ -46,3 +46,10 @@ jar{
     baseName = "blueprints_rest_api"
     version = "0.1.0"
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.3'
+}
+task stage {
+    dependsOn build
+}
