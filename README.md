@@ -798,6 +798,6 @@ window.onload = function(){
 	
 ## Despliegue en Heroku
 
-   Para ver el despliegue en heroku oprima el siguiente boton, en este caso las consultas estan dirigidas a la logica del back, por lo cual se puede consultar autores como author2, _authorname_, author1
+   Para ver el despliegue en heroku oprima el siguiente boton, en este caso las consultas estan dirigidas a la logica del front, por lo cual se puede consultar autores JhonConnor y LexLuthor
 	
  [![](/img/deploy.PNG)](https://restclienthtml5javascriptcss3.herokuapp.com/)
