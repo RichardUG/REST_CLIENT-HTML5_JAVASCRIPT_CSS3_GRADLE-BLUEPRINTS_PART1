@@ -795,3 +795,9 @@ window.onload = function(){
     ```
 
 14. Revise la [documentación y ejemplos de los estilos de Bootstrap](https://v4-alpha.getbootstrap.com/examples/) (ya incluidos en el ejercicio), agregue los elementos necesarios a la página para que sea más vistosa, y más cercana al mock dado al inicio del enunciado.
+	
+## Despliegue en Heroku
+
+   Para ver el despliegue en heroku oprima el siguiente boton, en este caso las consultas estan dirigidas a la logica del back, por lo cual se puede consultar autores como author2, _authorname_, author1
+	
+ [![](/img/deploy.PNG)](https://restclienthtml5javascriptcss3.herokuapp.com/)
